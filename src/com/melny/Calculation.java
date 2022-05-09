@@ -12,20 +12,26 @@ public class Calculation {
     public void setParentProbability(List<Node> faultTree) {
         for (int i = 0; i < faultTree.size(); i++) {
             probabilityOfChildren = 0;
-            if (faultTree.get(i).child != null) {
+            int temp =1;
+            if (faultTree.get(i).children != null) {
                 System.out.println("\nCalculating parent event P"+ faultTree.get(i).index+ " by its children events... ");
                 StringBuilder sb = new StringBuilder();
-                for (int j = 0; j < faultTree.get(i).child.size(); j++) {
-                    if (faultTree.get(i).child.get(j).probability != 0) {
+                for (int j = 0; j < faultTree.get(i).children.size(); j++) {
+                    if (faultTree.get(i).children.get(j).probability != 0) {
                         if (faultTree.get(i).operator.equals(Operator.OR)) {
-                            probabilityOfChildren += faultTree.get(i).child.get(j).probability;
-                            boolean hasAnotherChild= j < faultTree.get(i).child.size() - 1;
-                            buildConsoleOutput(faultTree.get(i).child.get(j).index, faultTree.get(i).child.get(j).probability, sb, hasAnotherChild, Operator.OR);
+                            //probabilityOfChildren += faultTree.get(i).children.get(j).probability;
+                            temp *= (1 - faultTree.get(i).children.get(j).probability);
+                            probabilityOfChildren = 1 - temp;
+                            System.out.println("temp-------------"+temp);
+                            boolean hasAnotherChild= j < faultTree.get(i).children.size() - 1;
+                            buildConsoleOutput(faultTree.get(i).children.get(j).index, faultTree.get(i).children.get(j).probability, sb, hasAnotherChild, Operator.OR);
                         } else {
                             if (probabilityOfChildren == 0) probabilityOfChildren = 1;
-                            probabilityOfChildren *= faultTree.get(i).child.get(j).probability;
-                            boolean hasAnotherChild= j < faultTree.get(i).child.size() - 1;
-                            buildConsoleOutput(faultTree.get(i).child.get(j).index, faultTree.get(i).child.get(j).probability, sb, hasAnotherChild, Operator.AND);
+                            probabilityOfChildren *= faultTree.get(i).children.get(j).probability;
+
+                            // result = 1 - (
+                            boolean hasAnotherChild= j < faultTree.get(i).children.size() - 1;
+                            buildConsoleOutput(faultTree.get(i).children.get(j).index, faultTree.get(i).children.get(j).probability, sb, hasAnotherChild, Operator.AND);
                         }
                     }
                 }

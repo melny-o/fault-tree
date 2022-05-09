@@ -6,32 +6,26 @@ public class Node {
 
 Position position;
 Operator operator;
-List<Node> child;
-Node parent;
+List<Node> children;
 double probability;
-static int indexCounter=1;
-int index;
 String description;
+int index;
 
-public Node(Position position, double probability) {
+public Node(Position position, double probability, int index) {
     this.position = position;
     this.probability = probability;
-
-    this.index=indexCounter;
-    indexCounter++;
+    this.index = index;
 }
 public Node(Position position, double probability, String description) {
     this.position = position;
     this.probability = probability;
     this.description = description;
 }
-public Node(Position position, Operator operator, List<Node> child){
+public Node(Position position, Operator operator, List<Node> child, int index){
     this.position = position;
     this.operator = operator;
-    this.child = child;
-
-    this.index=indexCounter;
-    indexCounter++;
+    this.children = child;
+    this.index = index;
 }
 
 }
