@@ -1,11 +1,10 @@
 package com.melny;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class MinimalCutSets {
 
-    public List<List<Node>> findAllMinimalCutSets(List<List<Node>> minimalCutSets) {
+    public static List<List<Node>> findAllMinimalCutSets(List<List<Node>> minimalCutSets) {
         List<Node> childrenOfCutSetEvent;
         List<Node> cutSet;
         Node event;
@@ -16,7 +15,6 @@ public class MinimalCutSets {
                 childrenOfCutSetEvent = event.children;
                 if (childrenOfCutSetEvent != null) {
                     if (event.operator == Operator.OR) {
-                        //minimalCutSets.remove(cutSet);
                         cutSet.remove(event);
                         for (Node child : childrenOfCutSetEvent) {
                             List<Node> newInput = new ArrayList<>();
@@ -49,15 +47,35 @@ public class MinimalCutSets {
         }
         return minimalCutSets;
     }
-    
-    public void ar(){
-        int[] source = {1, 2, 3};
-        int[] destination = new int[3];
-        for(int i=0; i<destination.length; i++){
-            destination[i]=source[destination.length - i-1];
-        }
-        for(int i=0; i<destination.length; i++){
-            System.out.println(destination[i]);
-        }
+
+    public static Set<List<Node>> findAllUniqueMinimalCutSets(List<List<Node>> allMinimalCutSets){
+        return new HashSet<List<Node>>(allMinimalCutSets);
     }
+
+    public static HashMap<List<Node>, Double> calculateProbabilityOfMinimalCutSets(Set<List<Node>> minimalCutSets){
+        HashMap<List<Node>, Double>  probability = new HashMap<>();
+        for(List<Node> minSet : minimalCutSets) {
+            double probabilityOfMinCutSet = 1;
+            for(Node event: minSet){
+                probabilityOfMinCutSet *=event.probability;
+            }
+            probability.put(minSet, probabilityOfMinCutSet);
+        }
+        return probability;
+    }
+
+    public static HashMap<List<Node>, Double> calculateImportanceOfMinCutSets(Node topEvent,
+                                                                              Set<List<Node>> minimalCutSets) {
+        HashMap<List<Node>, Double> minCutSetsAndProbability = calculateProbabilityOfMinimalCutSets(minimalCutSets);
+        HashMap<List<Node>, Double> minCutSetsAndImportance = new HashMap<>();
+        for(Map.Entry<List<Node>, Double> entry : minCutSetsAndProbability.entrySet()){
+            double importance = entry.getValue()/topEvent.probability;
+            minCutSetsAndImportance.put(entry.getKey(), importance);
+        }
+        return minCutSetsAndImportance;
+    }
+
+//    public static minimalCutSetImportance(Node topEvent, Set<List<Node>> minimalCutSets){
+//
+//    }
 }
