@@ -64,13 +64,15 @@ public class MinimalCutSets {
         return probability;
     }
 
-    public static HashMap<List<Node>, Double> calculateImportanceOfMinCutSets(Node topEvent,
+    public static HashMap<List<Node>, HashMap<Double, Double>> calculateImportanceOfMinCutSets(Node topEvent,
                                                                               Set<List<Node>> minimalCutSets) {
         HashMap<List<Node>, Double> minCutSetsAndProbability = calculateProbabilityOfMinimalCutSets(minimalCutSets);
-        HashMap<List<Node>, Double> minCutSetsAndImportance = new HashMap<>();
+        HashMap<List<Node>, HashMap<Double,Double>> minCutSetsAndImportance = new HashMap<>();
+        HashMap<Double, Double> probabilityAndImportanceOfCutSet = new HashMap<>();
         for(Map.Entry<List<Node>, Double> entry : minCutSetsAndProbability.entrySet()){
             double importance = entry.getValue()/topEvent.probability;
-            minCutSetsAndImportance.put(entry.getKey(), importance);
+            probabilityAndImportanceOfCutSet.put(entry.getValue(), importance);
+            minCutSetsAndImportance.put(entry.getKey(), probabilityAndImportanceOfCutSet);
         }
         return minCutSetsAndImportance;
     }
