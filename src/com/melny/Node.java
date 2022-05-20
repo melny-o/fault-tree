@@ -16,11 +16,6 @@ public Node(Position position, double probability, int index) {
     this.probability = probability;
     this.index = index;
 }
-public Node(Position position, double probability, String description) {
-    this.position = position;
-    this.probability = probability;
-    this.description = description;
-}
 public Node(Position position, Operator operator, List<Node> child, int index){
     this.position = position;
     this.operator = operator;

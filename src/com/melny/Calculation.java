@@ -1,7 +1,5 @@
 package com.melny;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.List;
 
 public class Calculation {
@@ -50,16 +48,6 @@ public class Calculation {
             if (operator.equals(Operator.OR)) sb.append(" + ");
             else sb.append(" * ");
             generalMessage = generalMessage.substring(0, 1).toLowerCase() + generalMessage.substring(1);
-        }
-    }
-
-    void roundAndSetCalculatedParentProbability(Node node) {
-        DecimalFormat roundToFivePlaces = new DecimalFormat("#.#####");
-        String format = roundToFivePlaces.format(probabilityOfChildren);
-        try {
-            node.probability = Double.parseDouble(String.valueOf(roundToFivePlaces.parse(format)));
-        } catch (ParseException e) {
-            e.printStackTrace();
         }
     }
 }
